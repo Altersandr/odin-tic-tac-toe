@@ -44,6 +44,7 @@ h1{
 }
 
 #playing-field #field{
+    padding-top: 3em;
     min-width: 60%;
     min-height: 60%;
     display: grid;
@@ -57,7 +58,7 @@ h1{
 .cell5,
 .cell7,
 .cell8{
-    border-right: 3px solid rgb(0, 0, 0);
+    border-right: 3px solid rgb(0, 0, 0, .3);
     
 }
 
@@ -67,11 +68,12 @@ h1{
 .cell7,
 .cell8,
 .cell9{
-    border-top: 3px solid rgb(0, 0, 0);
+    border-top: 3px solid rgb(0, 0, 0, .3);
 }
 
 #field div{
-    font-size: 100%;
+    color: gold;
+    font-size: 6rem;
     text-align: center;
 }
 
@@ -85,4 +87,8 @@ h1{
 
 footer{
     height: 5%;
+}
+
+.cells{
+    cursor: pointer;
 }
