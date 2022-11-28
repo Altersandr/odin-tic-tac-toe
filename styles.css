@@ -17,11 +17,6 @@ body{
     background-image: url(/bg_bggenerator_com.png);
 }
 
-main{
-    height: 80%;
-    /* width: 80%; */
-}
-
 #playing-field{
     display: flex;
     flex-direction: column;
@@ -29,9 +24,11 @@ main{
     flex-shrink: none;
     /* justify-content: center; */
     
-    background-color: rgb(243, 96, 96, 0.5);
-    height: 100%;
-    width: 60%;
+    background-color: rgb(243, 96, 96, 0.3);
+    width: 700px;
+    height: 800px;
+    /* height: 80%;
+    width: 40%; */
     /* width: 80%; */
     /* background-image: url(/bg_bggenerator_com.png); */
 }
@@ -45,7 +42,7 @@ h1{
 
 #playing-field #field{
     padding-top: 3em;
-    min-width: 60%;
+    min-width: 70%;
     min-height: 60%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -72,7 +69,7 @@ h1{
 }
 
 #field div{
-    color: gold;
+    color: rgb(255, 215, 0, .7);
     font-size: 6rem;
     text-align: center;
 }

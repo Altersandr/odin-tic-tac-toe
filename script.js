@@ -1,6 +1,23 @@
+
+
+
+const Players = {
+    player1: {
+        turn: 1,
+        score: 0,
+        draw: "X"
+    },
+    player2: {
+        turn:2,
+        score: 0,
+        draw: "O"
+    }
+}
+
+
 const Gameboard = {
     
-    board: ["x", "x", "x", "x", "x", "x", "x", "x", "x"],
+    board: ["", "", "", "", "", "", "", "", ""],
     
     renderBoard: function (){
         this.board.forEach(cell=>{
@@ -9,30 +26,52 @@ const Gameboard = {
             cell.innerHTML = this.board[i-1]
             }})},
             
-    clickEvent: function (){
+    bindEvents: function (){
         const cells = document.querySelectorAll('.cells');
         cells.forEach(cell=>{
             cell.addEventListener('click', function(e){
-            e.target.innerHTML = "O";
-            })})},
+            e.target.innerHTML = this.draw;
+            
+            })})
+        },
+
+    draw: function(){
+        if (Players.player1.turn < Players.player2.turn){
+            Players.player1.turn++
+            return "X"
+        }else{
+            Players.player2.turn++
+            return "O"
+        }
+
+    },
+
+    // checkTurn: function(){
+    //     if (Players.player1.turn < Players.player2.turn){
+    //         console.log("Player 1 should go")
+    //         Players.player1.turn++
+    //     }else{
+
+    //     }
+    // },    
     
     gameOn: function(){
         this.renderBoard()
-        this.clickEvent()
+        this.bindEvents()
     },
 
 
-
-
-
-
-
-
-
-
-
-
 }
+
+// console.log(Gameboard.draw())
+// console.log(Gameboard.draw())
+// console.log(Gameboard.draw())
+// console.log(Gameboard.draw())
+// console.log(Gameboard.draw())
+// console.log(Gameboard.draw())
+// console.log(Gameboard.draw())
+// console.log(Gameboard.checkTurn())
+
 
 
 //make gameboard object
