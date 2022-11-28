@@ -1,0 +1,88 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Ubuntu:wght@700&display=swap');
+
+html,
+body{
+    font-family: "Ubuntu";
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-image: url(/bg_bggenerator_com.png);
+}
+
+main{
+    height: 80%;
+    /* width: 80%; */
+}
+
+#playing-field{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: none;
+    /* justify-content: center; */
+    
+    background-color: rgb(243, 96, 96, 0.5);
+    height: 100%;
+    width: 60%;
+    /* width: 80%; */
+    /* background-image: url(/bg_bggenerator_com.png); */
+}
+
+h1{
+    padding-top: .5em;
+    text-align: center;
+    font-size: 50px;
+    color: white;
+}
+
+#playing-field #field{
+    min-width: 60%;
+    min-height: 60%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);;
+}
+
+.cell1,
+.cell2,
+.cell4,
+.cell5,
+.cell7,
+.cell8{
+    border-right: 3px solid rgb(0, 0, 0);
+    
+}
+
+.cell4,
+.cell5,
+.cell6,
+.cell7,
+.cell8,
+.cell9{
+    border-top: 3px solid rgb(0, 0, 0);
+}
+
+#field div{
+    font-size: 100%;
+    text-align: center;
+}
+
+#display,
+#controls{
+    width: 70%;
+    height: 15%;
+    background-color: gold;
+    opacity: .5;
+}
+
+footer{
+    height: 5%;
+}
