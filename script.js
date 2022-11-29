@@ -1,23 +1,36 @@
 
 
 
-const Players = {
-    player1: {
-        turn: 1,
-        score: 0,
-        draw: "X"
-    },
-    player2: {
-        turn:2,
-        score: 0,
-        draw: "O"
-    }
-}
+// const Players = {
+//     player1: {
+//         turn: 1,
+//         score: 0,
+//     },
+//     player2: {
+//         turn:2,
+//         score: 0,
+//     }
+// }
 
 
 const Gameboard = {
     
     board: ["", "", "", "", "", "", "", "", ""],
+
+    winner: null,
+
+    players: {
+        p1: {
+            name: '',
+            turn: 1,
+            score: 0,
+        },
+        p2: {
+            name: "",
+            turn: 2,
+            score: 0,
+        }
+    },
     
     renderBoard: function (){
         this.board.forEach(cell=>{
@@ -27,33 +40,53 @@ const Gameboard = {
             }})},
             
     bindEvents: function (){
+        // console.log(this)
         const cells = document.querySelectorAll('.cells');
         cells.forEach(cell=>{
-            cell.addEventListener('click', function(e){
-            e.target.innerHTML = this.draw;
-            
+            cell.addEventListener('click', function(){
+            const id = this.dataset.id;
+            // console.log(id)
+            if(Gameboard.board[id] != ""){
+                alert("That cell is already occupied")
+            }else{
+                const nextPlayer = Gameboard.draw()
+            Gameboard.board[id] = nextPlayer
+            Gameboard.renderBoard()
+            Gameboard.checkWinner(nextPlayer)
+        }
             })})
         },
 
     draw: function(){
-        if (Players.player1.turn < Players.player2.turn){
-            Players.player1.turn++
+        if (this.players.p1.turn < this.players.p2.turn){
+            this.players.p1.turn++
             return "X"
         }else{
-            Players.player2.turn++
+            this.players.p2.turn++
             return "O"
         }
 
     },
+    checkWinner: function(nextPlayer){
+        const board = this.board;
+        if(!(this.players.p1.turn <4)){
+            if(this.board.includes('')){
+                if(    board[0]===board[1]&&board[1]===board[2]&&board[0]!=''
+                    || board[3]===board[4]&&board[4]===board[5]&&board[3]!=''
+                    || board[6]===board[7]&&board[7]===board[8]&&board[6]!=''
+                    || board[0]===board[3]&&board[3]===board[6]&&board[0]!=''
+                    || board[1]===board[4]&&board[4]===board[7]&&board[1]!=''
+                    || board[2]===board[5]&&board[5]===board[8]&&board[2]!=''
+                    || board[0]===board[4]&&board[4]===board[8]&&board[0]!=''
+                    || board[2]===board[4]&&board[4]===board[6]&&board[2]!=''
+                    ){
+                    this.winner = nextPlayer
+                    console.log(`Winner is ${nextPlayer}`)
+            
+            }
+        }else{console.log('its a tie')}}
 
-    // checkTurn: function(){
-    //     if (Players.player1.turn < Players.player2.turn){
-    //         console.log("Player 1 should go")
-    //         Players.player1.turn++
-    //     }else{
-
-    //     }
-    // },    
+    },
     
     gameOn: function(){
         this.renderBoard()
@@ -62,16 +95,6 @@ const Gameboard = {
 
 
 }
-
-// console.log(Gameboard.draw())
-// console.log(Gameboard.draw())
-// console.log(Gameboard.draw())
-// console.log(Gameboard.draw())
-// console.log(Gameboard.draw())
-// console.log(Gameboard.draw())
-// console.log(Gameboard.draw())
-// console.log(Gameboard.checkTurn())
-
 
 
 //make gameboard object

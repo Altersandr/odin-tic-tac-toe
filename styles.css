@@ -22,15 +22,10 @@ body{
     flex-direction: column;
     align-items: center;
     flex-shrink: none;
-    /* justify-content: center; */
-    
+
     background-color: rgb(243, 96, 96, 0.3);
     width: 700px;
     height: 800px;
-    /* height: 80%;
-    width: 40%; */
-    /* width: 80%; */
-    /* background-image: url(/bg_bggenerator_com.png); */
 }
 
 h1{
@@ -76,6 +71,7 @@ h1{
 
 #display,
 #controls{
+    border-radius: 10px;
     width: 70%;
     height: 15%;
     background-color: gold;
