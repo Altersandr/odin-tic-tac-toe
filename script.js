@@ -1,5 +1,24 @@
+const modal = document.querySelector(".modal");
+const overlay = document.querySelector(".overlay");
+const restartBtn = document.querySelector(".btn");
+const display = document.querySelector("#display");
 
 
+const openModal = function () {
+    modal.classList.remove("hidden");
+    overlay.classList.remove("hidden");
+  };
+
+
+const restartGame = function () {
+    modal.classList.add("hidden");
+    overlay.classList.add("hidden");
+    Gameboard.board = ["", "", "", "", "", "", "", "", ""];
+    Gameboard.gameOn()
+
+  };
+
+restartBtn.addEventListener("click", restartGame);
 
 // const Players = {
 //     player1: {
@@ -23,12 +42,12 @@ const Gameboard = {
         p1: {
             name: '',
             turn: 1,
-            score: 0,
+            // score: 0,
         },
         p2: {
             name: "",
             turn: 2,
-            score: 0,
+            // score: 0,
         }
     },
     
@@ -81,10 +100,15 @@ const Gameboard = {
                     || board[2]===board[4]&&board[4]===board[6]&&board[2]!=''
                     ){
                     this.winner = nextPlayer
+                    openModal()
+                    display.innerHTML = `The Winner is ${nextPlayer}`
                     console.log(`Winner is ${nextPlayer}`)
             
             }
-        }else{console.log('its a tie')}}
+        }else{
+            openModal()
+            display.innerHTML = 'It\'s a tie!'
+                }}
 
     },
     
@@ -95,20 +119,5 @@ const Gameboard = {
 
 
 }
-
-
-//make gameboard object
-
-//make players object
-//player object has a name and a score
-
-//make game object
-
-//make display object
-
-
-
-
-
 
 Gameboard.gameOn()
