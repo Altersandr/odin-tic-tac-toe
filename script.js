@@ -20,17 +20,20 @@ const restartGame = function () {
 
 restartBtn.addEventListener("click", restartGame);
 
-// const Players = {
-//     player1: {
-//         turn: 1,
-//         score: 0,
-//     },
-//     player2: {
-//         turn:2,
-//         score: 0,
-//     }
-// }
 
+const drawEvent = function(){
+    const id = this.dataset.id;
+    console.log(id)
+    if(Gameboard.board[id] != ""){
+        console.log(Gameboard.board[id])
+        alert("That cell is already occupied")
+    }else{
+        const nextPlayer = Gameboard.draw()
+    Gameboard.board[id] = nextPlayer
+    Gameboard.renderBoard()
+    Gameboard.checkWinner(nextPlayer)
+}
+    }
 
 const Gameboard = {
     
@@ -55,25 +58,14 @@ const Gameboard = {
         this.board.forEach(cell=>{
             for (let i = 1; i < 10 ;i++){
             const cell = document.querySelector(`.cell${i}`);
-            cell.innerHTML = this.board[i-1]
+            cell.firstChild.innerHTML = this.board[i-1]
             }})},
             
     bindEvents: function (){
         // console.log(this)
         const cells = document.querySelectorAll('.cells');
         cells.forEach(cell=>{
-            cell.addEventListener('click', function(){
-            const id = this.dataset.id;
-            // console.log(id)
-            if(Gameboard.board[id] != ""){
-                alert("That cell is already occupied")
-            }else{
-                const nextPlayer = Gameboard.draw()
-            Gameboard.board[id] = nextPlayer
-            Gameboard.renderBoard()
-            Gameboard.checkWinner(nextPlayer)
-        }
-            })})
+            cell.addEventListener('click', drawEvent)})
         },
 
     draw: function(){
