@@ -3,43 +3,74 @@ const overlay = document.querySelector(".overlay");
 const restartBtn = document.querySelector(".btn");
 const display = document.querySelector("#display");
 
+const modalOnLoad = document.querySelector(".modalonload");
+const btnPVP = document.querySelector(".btnPVP");
+const btnPVE = document.querySelector(".btnPVE");
+
+
+
 
 const openModal = function () {
     modal.classList.remove("hidden");
     overlay.classList.remove("hidden");
   };
 
+const openModalOnLoad = function () {
+    modalOnLoad.classList.remove("hidden");
+    overlay.classList.remove("hidden");
+  };
 
 const restartGame = function () {
+    modalOnLoad.classList.add("hidden");
     modal.classList.add("hidden");
     overlay.classList.add("hidden");
     Gameboard.board = ["", "", "", "", "", "", "", "", ""];
-    Gameboard.gameOn()
+    if(this.classList = "btnPVE"){
+        Gameboard.opponent = "AI";
+    }
+
+    Gameboard.gameOn();
 
   };
 
 restartBtn.addEventListener("click", restartGame);
+btnPVP.addEventListener("click", restartGame);
+btnPVE.addEventListener("click", restartGame);
+
+window.setTimeout(openModalOnLoad, 500);
 
 
 const drawEvent = function(){
     const id = this.dataset.id;
-    console.log(id)
     if(Gameboard.board[id] != ""){
-        console.log(Gameboard.board[id])
-        alert("That cell is already occupied")
+        alert("That cell is already occupied");
     }else{
-        const nextPlayer = Gameboard.draw()
-    Gameboard.board[id] = nextPlayer
-    Gameboard.renderBoard()
-    Gameboard.checkWinner(nextPlayer)
-}
-    }
+        if(this.opponent = "AI" || this.players.p1.turn > this.players.ai.turn){
+            Gameboard.players.ai.turn++;
+            const nextPlayer = "O";
+            let nextMove = Gameboard.players.ai.makeTurn();
+            if(Gameboard.board[nextMove]!=""){
+                nextMove = Gameboard.players.ai.makeTurn();
+            }
+            Gameboard.board[nextMove] = nextPlayer;
+            Gameboard.renderBoard();
+            Gameboard.checkWinner(nextPlayer);
+        }else{
+        const nextPlayer = Gameboard.draw();
+     Gameboard.board[id] = nextPlayer;
+    Gameboard.renderBoard();
+    Gameboard.checkWinner(nextPlayer);
+    };
+};
+};
 
 const Gameboard = {
     
     board: ["", "", "", "", "", "", "", "", ""],
 
     winner: null,
+
+    opponent: null,
 
     players: {
         p1: {
@@ -50,6 +81,15 @@ const Gameboard = {
         p2: {
             name: "",
             turn: 2,
+            // score: 0,
+        },
+        ai: {
+            name: "",
+            turn: 2,
+            makeTurn: function(){
+            const randomSpot = Math.floor(Math.random()*9)
+            return randomSpot
+            },
             // score: 0,
         }
     },
@@ -69,14 +109,13 @@ const Gameboard = {
         },
 
     draw: function(){
-        if (this.players.p1.turn < this.players.p2.turn){
+        if (this.players.p1.turn < this.players.p2.turn||this.players.p1.turn < this.players.ai.turn){
             this.players.p1.turn++
             return "X"
         }else{
             this.players.p2.turn++
             return "O"
         }
-
     },
     checkWinner: function(nextPlayer){
         const board = this.board;
@@ -113,3 +152,5 @@ const Gameboard = {
 }
 
 Gameboard.gameOn()
+
+console.log(Gameboard.players.ai.makeTurn())

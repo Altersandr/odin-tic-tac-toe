@@ -1,6 +1,7 @@
 *{
     margin: 0;
     padding: 0;
+
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Ubuntu:wght@700&display=swap');
@@ -22,7 +23,6 @@ body{
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    
     align-items: center;
     width: 100%;
     height: 100%;
@@ -74,29 +74,18 @@ h1{
     border-top: 3px solid rgb(0, 0, 0, .3);
 }
 
-#field div{
+.cells{
     color: rgb(255, 215, 0, .6);
     font-size: 8rem;
-    text-align: center;
-}
-
-footer{
-    height: 5%;
-}
-
-.cells{
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-
-
-
-
 /* modal styling */
-.modal {
+.modal,
+.modalonload {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -114,6 +103,11 @@ footer{
     -webkit-animation-name: fadeIn;
     -webkit-animation-duration: 1.5s;
   }
+
+  .modalonload{
+    -webkit-animation-name: fadeIn;
+    -webkit-animation-duration: 2.5s;
+  }
   
   button {
     cursor: pointer;
@@ -121,18 +115,22 @@ footer{
     font-weight: 600;
   }
   
-  .btn {
+  .btn,
+  .btnPVP,
+  .btnPVE {
     display: inline-block;
     padding: 0.8rem 1.4rem;
     font-weight: 700;
-    background-color: rgb(0, 0, 0, .8);
+    background-color: rgba(0, 0, 0, 0.6);
     color: gold;
     border-radius: 0 5px 5px 0;
     text-align: center;
     font-size: 1.3em;
     transition: .5s ease;
   }
-  .btn:hover{
+  .btn:hover,
+  .btnPVP:hover,
+  .btnPVE:hover {
     color: black;
     background-color: rgba(255, 255, 255, 0.5)
   }
@@ -168,10 +166,29 @@ footer{
 
   #modal-flex{
     display: flex;
+    justify-content: center;
+  }
+  .modalonload #modal-flex{
+    gap: 2em;
+  }
+
+  .modalonload-body{
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+  }
+  #gamemode{
+    color: gold;
+    text-shadow: 1px 1px 1px black;
+    font-size: 3em;
+  }
+
+  .btnPVE,
+  .btnPVP{
+    border-radius: 5px;
   }
 
 #footer{
-    /* border-top: 1px solid gray; */
     width: 41.7%;
     height: 5%;
     justify-content: center;
@@ -179,8 +196,6 @@ footer{
     gap: 5rem;
     display: flex;
     color: white;
-    padding: 0;
-    margin: 0;
     background-color: rgb(243, 96, 96, 0.3);
 }
 
@@ -194,4 +209,10 @@ footer{
 footer img{
     filter:brightness(5);
     height: 1.5em;
+}
+
+.prevent-select {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

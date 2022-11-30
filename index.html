@@ -10,7 +10,7 @@
 <body>
     <main id="playing-field">
         <h1>Odin's Tic Tac Toe</h1>
-        <div id="field">
+        <div id="field" class="prevent-select">
             <div class="cells cell1" data-id="0"><span></span></div>
             <div class="cells cell2" data-id="1"><span></span></div>
             <div class="cells cell3" data-id="2"><span></span></div>
@@ -32,18 +32,23 @@
           </section>
           
           <div class="overlay hidden"></div>
-          
-          <!-- <button class="btn btn-open">Open Modal</button> -->
-    </main>
 
+          <section class="modalonload hidden">
+            <div class="modalonload-body">
+            <div id="gamemode">Select a game mode</div>
+            <div id="modal-flex">
+                <button class="btnPVP">Player vs Player</button>
+                <button class="btnPVE">Player vs AI</button>
+                </div>
+            </div>
+          </section>
+    </main>
     <footer id="footer">
         <div id = 'author'>Copyright © 2022 Altersandr</div>
-            <a href="https://github.com/Altersandr">
+        <a href="https://github.com/Altersandr">
             <img src= "https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt = 'Altersandr' width="30px" class="github">
-            </a>
+        </a>
     </footer>
-
-
     <script src="/script.js"></script>
 </body>
 </html>
