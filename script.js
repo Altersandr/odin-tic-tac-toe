@@ -9,6 +9,16 @@ const btnPVE = document.querySelector(".btnPVE");
 
 
 
+const findCell = function(){
+    for(let i = 0; i< 100; i++){
+        const randomSpot = Math.floor(Math.random()*9)
+        if(Gameboard.board[randomSpot]=== " "){
+            Gameboard.board[randomSpot]="O";
+            Gameboard.renderBoard()
+            Gameboard.checkWinner("O")
+                return}
+    }
+}
 
 const openModal = function () {
     modal.classList.remove("hidden");
@@ -27,6 +37,7 @@ const restartGame = function () {
     Gameboard.board = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
     Gameboard.players.p1.turn = 1;
     Gameboard.players.p2.turn = 2;
+    Gameboard.opponent = null;
     if(this.classList == "btnPVE"){
         Gameboard.opponent = "AI";
     }else{
@@ -43,21 +54,11 @@ btnPVE.addEventListener("click", restartGame);
 
 window.setTimeout(openModalOnLoad, 500);
 
-
-
-const aiTurn = function (){
-    const aiId = Gameboard.players.ai.makeTurn();
-    const board = Gameboard.board;
-    for(let i =0; i<board.length; i++){
-        if(board[aiId]== " "){
-            board[aiId] = "O"
-        }
-    }
-}
-
 const drawEvent = function(){
     if(Gameboard.opponent ==="AI"){
-        aiTurn()
+        setTimeout(findCell, 50)
+        Gameboard.renderBoard()
+        Gameboard.checkWinner()
     }
     const id = this.dataset.id;
     if(Gameboard.board[id] != " "){
@@ -93,13 +94,9 @@ const Gameboard = {
         ai: {
             name: "",
             turn: 2,
-            makeTurn: function(){
-            const randomSpot = Math.floor(Math.random()*9)
-            return randomSpot
             },
-            // score: 0,
-        }
-    },
+        },
+    
     
     renderBoard: function (){
         this.board.forEach(cell=>{
@@ -120,7 +117,6 @@ const Gameboard = {
             this.players.p1.turn++
             if(this.opponent === "AI"){
                 this.players.ai.turn++
-                console.log(this.players.ai.turn)
             }
             return "X"
         }else{
@@ -163,3 +159,6 @@ const Gameboard = {
 }
 
 Gameboard.gameOn()
+
+
+// findCell()

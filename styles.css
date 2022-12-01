@@ -164,9 +164,20 @@ h1{
     font-weight: 900;
   }
 
+  #changemode{
+
+    color: gold;
+    text-shadow: 1px 1px 1px black;
+    font-size: 2.5em;
+    padding-bottom: .5em;
+  }
+
+  #modal-flex1 .db-cont{
+    display: flex;
+  }
   #modal-flex{
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
   }
   .modalonload #modal-flex{
     gap: 2em;
