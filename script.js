@@ -24,9 +24,13 @@ const restartGame = function () {
     modalOnLoad.classList.add("hidden");
     modal.classList.add("hidden");
     overlay.classList.add("hidden");
-    Gameboard.board = ["", "", "", "", "", "", "", "", ""];
-    if(this.classList = "btnPVE"){
+    Gameboard.board = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+    Gameboard.players.p1.turn = 1;
+    Gameboard.players.p2.turn = 2;
+    if(this.classList == "btnPVE"){
         Gameboard.opponent = "AI";
+    }else{
+        Gameboard.opponent = null;
     }
 
     Gameboard.gameOn();
@@ -40,33 +44,36 @@ btnPVE.addEventListener("click", restartGame);
 window.setTimeout(openModalOnLoad, 500);
 
 
+
+const aiTurn = function (){
+    const aiId = Gameboard.players.ai.makeTurn();
+    const board = Gameboard.board;
+    for(let i =0; i<board.length; i++){
+        if(board[aiId]== " "){
+            board[aiId] = "O"
+        }
+    }
+}
+
 const drawEvent = function(){
+    if(Gameboard.opponent ==="AI"){
+        aiTurn()
+    }
     const id = this.dataset.id;
-    if(Gameboard.board[id] != ""){
+    if(Gameboard.board[id] != " "){
         alert("That cell is already occupied");
     }else{
-        if(this.opponent = "AI" || this.players.p1.turn > this.players.ai.turn){
-            Gameboard.players.ai.turn++;
-            const nextPlayer = "O";
-            let nextMove = Gameboard.players.ai.makeTurn();
-            if(Gameboard.board[nextMove]!=""){
-                nextMove = Gameboard.players.ai.makeTurn();
-            }
-            Gameboard.board[nextMove] = nextPlayer;
-            Gameboard.renderBoard();
-            Gameboard.checkWinner(nextPlayer);
-        }else{
         const nextPlayer = Gameboard.draw();
      Gameboard.board[id] = nextPlayer;
     Gameboard.renderBoard();
     Gameboard.checkWinner(nextPlayer);
     };
 };
-};
+// };
 
 const Gameboard = {
     
-    board: ["", "", "", "", "", "", "", "", ""],
+    board: [" ", " ", " ", " ", " ", " ", " ", " ", " "],
 
     winner: null,
 
@@ -111,6 +118,10 @@ const Gameboard = {
     draw: function(){
         if (this.players.p1.turn < this.players.p2.turn||this.players.p1.turn < this.players.ai.turn){
             this.players.p1.turn++
+            if(this.opponent === "AI"){
+                this.players.ai.turn++
+                console.log(this.players.ai.turn)
+            }
             return "X"
         }else{
             this.players.p2.turn++
@@ -120,15 +131,15 @@ const Gameboard = {
     checkWinner: function(nextPlayer){
         const board = this.board;
         if(!(this.players.p1.turn <4)){
-            if(this.board.includes('')){
-                if(    board[0]===board[1]&&board[1]===board[2]&&board[0]!=''
-                    || board[3]===board[4]&&board[4]===board[5]&&board[3]!=''
-                    || board[6]===board[7]&&board[7]===board[8]&&board[6]!=''
-                    || board[0]===board[3]&&board[3]===board[6]&&board[0]!=''
-                    || board[1]===board[4]&&board[4]===board[7]&&board[1]!=''
-                    || board[2]===board[5]&&board[5]===board[8]&&board[2]!=''
-                    || board[0]===board[4]&&board[4]===board[8]&&board[0]!=''
-                    || board[2]===board[4]&&board[4]===board[6]&&board[2]!=''
+            if(this.board.includes(' ')){
+                if(    board[0]===board[1]&&board[1]===board[2]&&board[0]!=' '
+                    || board[3]===board[4]&&board[4]===board[5]&&board[3]!=' '
+                    || board[6]===board[7]&&board[7]===board[8]&&board[6]!=' '
+                    || board[0]===board[3]&&board[3]===board[6]&&board[0]!=' '
+                    || board[1]===board[4]&&board[4]===board[7]&&board[1]!=' '
+                    || board[2]===board[5]&&board[5]===board[8]&&board[2]!=' '
+                    || board[0]===board[4]&&board[4]===board[8]&&board[0]!=' '
+                    || board[2]===board[4]&&board[4]===board[6]&&board[2]!=' '
                     ){
                     this.winner = nextPlayer
                     openModal()
@@ -152,5 +163,3 @@ const Gameboard = {
 }
 
 Gameboard.gameOn()
-
-console.log(Gameboard.players.ai.makeTurn())
