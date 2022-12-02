@@ -6,16 +6,18 @@ const display = document.querySelector("#display");
 const modalOnLoad = document.querySelector(".modalonload");
 const btnPVP = document.querySelector(".btnPVP");
 const btnPVE = document.querySelector(".btnPVE");
-
+const changeBtn = document.querySelector(".changemode");
 
 
 const findCell = function(){
-    for(let i = 0; i< 100; i++){
+    for(let i = 0; i< 50; i++){
         const randomSpot = Math.floor(Math.random()*9)
         if(Gameboard.board[randomSpot]=== " "){
             Gameboard.board[randomSpot]="O";
             Gameboard.renderBoard()
-            Gameboard.checkWinner("O")
+            const nextPlayer = Gameboard.currentPlayer();
+            Gameboard.checkWinner(nextPlayer)
+            
                 return}
     }
 }
@@ -28,6 +30,8 @@ const openModal = function () {
 const openModalOnLoad = function () {
     modalOnLoad.classList.remove("hidden");
     overlay.classList.remove("hidden");
+    Gameboard.gameOn();
+
   };
 
 const restartGame = function () {
@@ -37,13 +41,16 @@ const restartGame = function () {
     Gameboard.board = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
     Gameboard.players.p1.turn = 1;
     Gameboard.players.p2.turn = 2;
-    Gameboard.opponent = null;
-    if(this.classList == "btnPVE"){
-        Gameboard.opponent = "AI";
+    Gameboard.players.ai.turn = 2;
+
+    if(this.classList == "btnPVE" || this.classList =="btn"){
+        console.log(this)
+        console.log(Gameboard.opponent)
+        Gameboard.opponent ="AI";
     }else{
         Gameboard.opponent = null;
     }
-
+    
     Gameboard.gameOn();
 
   };
@@ -51,48 +58,49 @@ const restartGame = function () {
 restartBtn.addEventListener("click", restartGame);
 btnPVP.addEventListener("click", restartGame);
 btnPVE.addEventListener("click", restartGame);
+changeBtn.addEventListener("click", openModalOnLoad);
 
 window.setTimeout(openModalOnLoad, 500);
 
 const drawEvent = function(){
-    if(Gameboard.opponent ==="AI"){
-        setTimeout(findCell, 50)
-        Gameboard.renderBoard()
-        Gameboard.checkWinner()
-    }
     const id = this.dataset.id;
     if(Gameboard.board[id] != " "){
         alert("That cell is already occupied");
+        
     }else{
-        const nextPlayer = Gameboard.draw();
+        const nextPlayer = Gameboard.currentPlayer();
      Gameboard.board[id] = nextPlayer;
     Gameboard.renderBoard();
     Gameboard.checkWinner(nextPlayer);
+   
     };
+    if(Gameboard.opponent ==="AI"){
+        setTimeout(findCell, 100)
+        Gameboard.renderBoard()
+        Gameboard.checkWinner()
+        
+    }
 };
-// };
 
 const Gameboard = {
     
     board: [" ", " ", " ", " ", " ", " ", " ", " ", " "],
 
-    winner: null,
-
     opponent: null,
 
     players: {
         p1: {
-            name: '',
+           
             turn: 1,
-            // score: 0,
+           
         },
         p2: {
-            name: "",
+            
             turn: 2,
-            // score: 0,
+            
         },
         ai: {
-            name: "",
+            
             turn: 2,
             },
         },
@@ -106,13 +114,13 @@ const Gameboard = {
             }})},
             
     bindEvents: function (){
-        // console.log(this)
+        
         const cells = document.querySelectorAll('.cells');
         cells.forEach(cell=>{
             cell.addEventListener('click', drawEvent)})
         },
 
-    draw: function(){
+    currentPlayer: function(){
         if (this.players.p1.turn < this.players.p2.turn||this.players.p1.turn < this.players.ai.turn){
             this.players.p1.turn++
             if(this.opponent === "AI"){
@@ -137,11 +145,9 @@ const Gameboard = {
                     || board[0]===board[4]&&board[4]===board[8]&&board[0]!=' '
                     || board[2]===board[4]&&board[4]===board[6]&&board[2]!=' '
                     ){
-                    this.winner = nextPlayer
+                   
                     openModal()
                     display.innerHTML = `The Winner is ${nextPlayer}`
-                    console.log(`Winner is ${nextPlayer}`)
-            
             }
         }else{
             openModal()
@@ -155,10 +161,7 @@ const Gameboard = {
         this.bindEvents()
     },
 
-
 }
 
 Gameboard.gameOn()
 
-
-// findCell()
