@@ -11,15 +11,15 @@
     <main id="playing-field">
         <h1>Odin's Tic Tac Toe</h1>
         <div id="field" class="prevent-select">
-            <div class="cells cell1" data-id="0"><span></span></div>
-            <div class="cells cell2" data-id="1"><span></span></div>
-            <div class="cells cell3" data-id="2"><span></span></div>
-            <div class="cells cell4" data-id="3"><span></span></div>
-            <div class="cells cell5" data-id="4"><span></span></div>
-            <div class="cells cell6" data-id="5"><span></span></div>
-            <div class="cells cell7" data-id="6"><span></span></div>
-            <div class="cells cell8" data-id="7"><span></span></div>
-            <div class="cells cell9" data-id="8"><span></span></div>
+            <div class="cells cell1" data-id="0"><span> </span></div>
+            <div class="cells cell2" data-id="1"><span> </span></div>
+            <div class="cells cell3" data-id="2"><span> </span></div>
+            <div class="cells cell4" data-id="3"><span> </span></div>
+            <div class="cells cell5" data-id="4"><span> </span></div>
+            <div class="cells cell6" data-id="5"><span> </span></div>
+            <div class="cells cell7" data-id="6"><span> </span></div>
+            <div class="cells cell8" data-id="7"><span> </span></div>
+            <div class="cells cell9" data-id="8"><span> </span></div>
         </div>
         
         <section class="modal hidden">
@@ -44,7 +44,20 @@
             <div id="gamemode">Select a game mode</div>
             <div id="modal-flex">
                 <button class="btnPVP">Player vs Player</button>
-                <button class="btnPVE">Player vs AI</button>
+                <div class="container">
+                    <button class="btnPVE">Player vs AI</button>
+                                <h3>
+                                    Select difficulty
+                                </h3>
+                                
+                                <select name="difficulty" id="difficulty">
+                                    <option value="easy" id="easy">Easy</option>
+                                    <option value="hard" id="hard">Hard</option>
+                                    <option value="unbeatable" id="unbeatable">Unbeatable</option>
+                                </select>
+            
+                            </div>
+                </div>
                 </div>
             </div>
           </section>

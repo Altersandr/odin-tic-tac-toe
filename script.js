@@ -8,8 +8,19 @@ const btnPVP = document.querySelector(".btnPVP");
 const btnPVE = document.querySelector(".btnPVE");
 const changeBtn = document.querySelector(".changemode");
 
+const easy = document.querySelector("#easy");
+const hard = document.querySelector("#hard");
+const unbeatable = document.querySelector("#unbeatable");
+const selection = document.querySelector("#difficulty")
 
-const aiMove = function(){
+// console.log(difficulty.value)
+
+
+
+
+
+
+const easyAiMove = function(){
     for(let i = 0; i< 20; i++){
         const randomSpot = Math.floor(Math.random()*9)
         if(Gameboard.board[randomSpot]=== " "){
@@ -27,7 +38,7 @@ const openModal = function () {
 const openModalOnLoad = function () {
     modalOnLoad.classList.remove("hidden");
     overlay.classList.remove("hidden");
-
+    updateDifficulty()
   };
 
 const restartGame = function () {
@@ -38,9 +49,13 @@ const restartGame = function () {
     Gameboard.players.p1.turn = 1;
     Gameboard.players.p2.turn = 2;
     Gameboard.players.ai.turn = 2;
-    // Gameboard.opponent = null;
+    
     if(this.classList == "btnPVE" || this.classList == "btn" && Gameboard.opponent =="AI"){
         Gameboard.opponent ="AI";
+        if(Gameboard.difficulty=="unbeatable"){
+            Gameboard.bestMove()
+        }
+       
     }else if(this.classList == "btnPVP" || this.classList == "btn" && Gameboard.opponent ==null){
        
         Gameboard.opponent = null;
@@ -57,11 +72,11 @@ changeBtn.addEventListener("click", openModalOnLoad);
 
 window.setTimeout(openModalOnLoad, 500);
 
-//player move
+
+
 const playerMove = function (){ 
     const cellId = this.dataset.id;
     const gameboard = Gameboard.board;
-    let currentPlayer = 'X';
     if (gameboard[cellId] != " "){
         alert("That cell is already occupied");
         return
@@ -69,59 +84,36 @@ const playerMove = function (){
     if(Gameboard.players.p1.turn<Gameboard.players.p2.turn||Gameboard.players.p1.turn<Gameboard.players.ai.turn){
         gameboard[cellId]  = "X";
         Gameboard.players.p1.turn++
-        Gameboard.checkWinner("X");
-        
         
     }else{
         if(Gameboard.opponent!='AI'){
         gameboard[cellId]  = "O";
         Gameboard.players.p2.turn++
-        Gameboard.checkWinner("O");
     }
     }
     if(Gameboard.opponent=='AI'){
-
-        Gameboard.bestMove()
-        // setTimeout(aiMove(), 200)
-        Gameboard.checkWinner("O")
-        // currentPlayer = "O"
+        Gameboard.currentPlayer = "O";
+        if(Gameboard.difficulty =="easy"){
+            easyAiMove()        }
+            else if(Gameboard.difficulty =="hard" ||Gameboard.difficulty =="unbeatable"){
+            Gameboard.bestMove()
+            }
+        // Gameboard.bestMove()
+        // easyAiMove()
         Gameboard.players.ai.turn++
-
     }
-    // currentPlayer = "X"
-    // Gameboard.checkWinner(currentPlayer)
+    
+    let result = Gameboard.checkWinner()
     Gameboard.renderBoard();
-    // aiMove() 
+    if(result!==null&&result!=="tie"){
+        display.innerHTML = `The Winner is ${result}`
+        openModal()
+    }else if(result == "tie"){
+        openModal()
+        display.innerHTML = 'It\'s a tie!'
+    }
+    Gameboard.renderBoard(); 
 };
-// const drawEvent = function(){
-//     const nextPlayer = Gameboard.currentPlayer()
-//     const id = this.dataset.id;
-//     if(Gameboard.board[id] != " "){
-//         alert("That cell is already occupied");
-//         return
-        
-//     }else{
-//         // const nextPlayer = Gameboard.currentPlayer();
-//         Gameboard.board[id] = nextPlayer;
-//         //  console.log(nextPlayer)
-//         // Gameboard.checkWinner(nextPlayer);
-//         // Gameboard.renderBoard();
-//     }
-//     if(Gameboard.opponent ==="AI"){
-//         const nextPlayer = "O";
-//         setTimeout(findCell, 100)
-//         // Gameboard.renderBoard()
-//         // console.log(nextPlayer)
-//         Gameboard.checkWinner(nextPlayer)
-//         Gameboard.renderBoard()
-        
-//     }else{
-//     Gameboard.checkWinner(nextPlayer)
-//     Gameboard.renderBoard()}
-//     // console.log(nextPlayer)
-//     // console.log(Gameboard.checkWinner(nextPlayer))
-//     // Gameboard.checkWinner(nextPlayer)
-// };
 
 const Gameboard = {
     
@@ -129,7 +121,7 @@ const Gameboard = {
 
     opponent: null,
 
-    winner: null,
+    difficulty: null,
 
     players: {
         p1: {
@@ -164,49 +156,54 @@ const Gameboard = {
         },
 
 
-
-    // currentPlayer: function(){
-    //     if (this.players.p1.turn < this.players.p2.turn||this.players.p1.turn < this.players.ai.turn){
-    //         this.players.p1.turn++
-    //         if(this.opponent === "AI"){
-    //             this.players.ai.turn++
-    //             // return "X"
-    //         }
-    //         return "X"
-    //     }else{
-    //         this.players.p2.turn++
-    //         return "O"
-    //     }
-    // },
-
-
-
-
-    checkWinner: function(nextPlayer){
+    checkWinner: function(){
+        let winner = null;
         const board = this.board;
-        if(!(this.players.p1.turn <4)){
-            if(board.includes(' ')||this.winner==null){
-                if(    board[0]===board[1]&&board[1]===board[2]&&board[0]!=' '
-                    || board[3]===board[4]&&board[4]===board[5]&&board[3]!=' '
-                    || board[6]===board[7]&&board[7]===board[8]&&board[6]!=' '
-                    || board[0]===board[3]&&board[3]===board[6]&&board[0]!=' '
-                    || board[1]===board[4]&&board[4]===board[7]&&board[1]!=' '
-                    || board[2]===board[5]&&board[5]===board[8]&&board[2]!=' '
-                    || board[0]===board[4]&&board[4]===board[8]&&board[0]!=' '
-                    || board[2]===board[4]&&board[4]===board[6]&&board[2]!=' '
-                    ){
-                        //to be changed back
-                        console.log(nextPlayer)
-                        return nextPlayer;
-                    display.innerHTML = `The Winner is ${this.winner}`
-                    openModal()
+        //horizontal
+            if(this.equal3(board[0], board[1], board[2])){
+                winner = board[0];
             }
-        }else{
-            return "tie"
-            openModal()
-            display.innerHTML = 'It\'s a tie!'
-                }}
+            else if(this.equal3(board[3], board[4], board[5])){
+                winner = board[3];
+            }
+            else if(this.equal3(board[6], board[7], board[8])){
+                winner = board[6];
+            }
+        //vertical
+            else if(this.equal3(board[0], board[3], board[6])){
+                winner = board[0];
+            }
+            else if(this.equal3(board[1], board[4], board[7])){
+                winner = board[1];
+            }
+            else if(this.equal3(board[2], board[5], board[8])){
+                winner = board[2];
+            }
+        //across
+            else if(this.equal3(board[0], board[4], board[8])){
+                winner = board[0];
+            }
+            else if(this.equal3(board[2], board[4], board[6])){
+                winner = board[2];
+            }
+            
+            let openSpots = 0;
+            for (let i = 0; i < 9; i++) {
+                if (board[i] == ' ') {
+                    openSpots++;
+                }
+                }
+            if (winner == null && openSpots == 0) {
+                return 'tie';
+              } else {
+                return winner;
+              }
+              
 
+    },
+
+    equal3: function(a, b, c){
+        return a == b && b == c && a != ' ';
     },
     
     gameOn: function(){
@@ -214,65 +211,90 @@ const Gameboard = {
         this.bindEvents()
     },
 
+
     bestMove: function(){
-        let topScore = -Infinity;
         let move;
-        let board = this.board
-    for (let i = 1; i < 10 ;i++){
-        if(board[i]== " "){
-            board[i] == "O";
-            let score = this.minimax(board, 0, false);
-            board[i] = "";
-            if (score > topScore){
-                topScore = score;
-                move = i;
-            }
+        let topScore = -Infinity;
+        let board = this.board;
+        
+        for (let i = 0; i < 9 ;i++){
+            if(board[i] ==" "){
+                board[i] = "O";
+                let score = this.minimax(board, 0, false);
+                board[i] = " ";
+                if( score > topScore){
+                    topScore = score;
+                    move = i;
+                }
+            } 
         }
-    }
-    board[i]= "O";
-    this.currentPlayer = "X";
-    },
+        
+        board[move] = "O";
+        this.currentPlayer = "X"
+      
+        },
+
+        minimax: function(board, depth, isMaximizing){
+            let result = this.checkWinner();
+            
+            if(result !== undefined && result !== null){
+                let score = this.scores[result];
+                
+                return score
+            }
+
+
+
+            if (isMaximizing){
+                let topScore = -Infinity;
+                for(let i = 0; i<9; i++){
+                    if(board[i] ==" "){
+                        board[i] = "O";
+                        let score = this.minimax(board, depth+1, false);
+                        board[i] = " ";
+                        if (score > topScore){
+                            topScore= score;
+                        }
+                    }
+                }
+                return topScore;
+            }else{
+                let topScore = Infinity;
+                for(let i = 0; i<9; i++){
+                    if(board[i] ==" "){
+                        board[i] = "X";
+                        let score = this.minimax(board, depth+1, true);
+                        board[i] = " ";
+                       if (score < topScore){
+                        topScore = score;
+                       }
+                    }
+                }
+                return topScore;
+
+            }
+        },
 
     scores: {
-        X: 1,
-        O: -1,
-        tie: 0
+        X: -10,
+        O: 10,
+        tie: 0,
     },
 
-    currentPlayer: "O",
+    currentPlayer: "X",
+   
+}
 
-    minimax: function(board, depth, isMaximizing){
-        let result = this.checkWinner();
-        if(result!= null){
-            return scores[result]
-        }
+Gameboard.gameOn()
 
-        if(isMaximizing){
-            let topScore = -Infinity;
-            for(let i = 0; i<10; i++){
-                if (board[i] == " "){
-                    board[i] == "O";
-                    let score = this.minimax(board, depth+1, false);
-                    board[i]= ' ';
-                    topScore = max(score, topScore);
-                }
-            }return topScore;
 
-        }else{
-            let topScore = Infinity;
-            for(let i = 0; i<10; i++){
-                if (board[i] == " "){
-                    board[i] == "X";
-                    let score = this.minimax(board, depth+1, true);
-                    board[i]= ' ';
-                    topScore = min(score, topScore);
-        }
-    }return topScore;
-    
-        }
-        }
-    }
 
-    Gameboard.gameOn()
+const updateDifficulty = function (){
+    let difficultyValue = difficulty.value
+    Gameboard.difficulty = `${difficultyValue}`;
+
+};
+
+difficulty.addEventListener('blur', updateDifficulty)
 
 
