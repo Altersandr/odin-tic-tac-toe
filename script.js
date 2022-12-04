@@ -8,17 +8,7 @@ const btnPVP = document.querySelector(".btnPVP");
 const btnPVE = document.querySelector(".btnPVE");
 const changeBtn = document.querySelector(".changemode");
 
-const easy = document.querySelector("#easy");
-const hard = document.querySelector("#hard");
-const unbeatable = document.querySelector("#unbeatable");
 const selection = document.querySelector("#difficulty")
-
-// console.log(difficulty.value)
-
-
-
-
-
 
 const easyAiMove = function(){
     for(let i = 0; i< 20; i++){
@@ -98,8 +88,7 @@ const playerMove = function (){
             else if(Gameboard.difficulty =="hard" ||Gameboard.difficulty =="unbeatable"){
             Gameboard.bestMove()
             }
-        // Gameboard.bestMove()
-        // easyAiMove()
+
         Gameboard.players.ai.turn++
     }
     
@@ -125,17 +114,12 @@ const Gameboard = {
 
     players: {
         p1: {
-           
             turn: 1,
-           
         },
-        p2: {
-            
+        p2: { 
             turn: 2,
-            
         },
         ai: {
-            
             turn: 2,
             },
         },
@@ -198,8 +182,6 @@ const Gameboard = {
               } else {
                 return winner;
               }
-              
-
     },
 
     equal3: function(a, b, c){
@@ -242,8 +224,6 @@ const Gameboard = {
                 
                 return score
             }
-
-
 
             if (isMaximizing){
                 let topScore = -Infinity;
